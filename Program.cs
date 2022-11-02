@@ -45,9 +45,14 @@ public class Product
     public double price;
     public int iva;
 
-    public int GetCode()
+    public string GetCode()
     {
-        return code;
+        string strCode = Convert.ToString(code);
+        while(strCode.Length < 8)
+        {
+            strCode = "0" + strCode;
+        }
+        return strCode;
     }
 
     public Product(string name, string description, double price, int iva)
@@ -73,6 +78,6 @@ public class Product
 
     public string GetFullName()
     {
-        return this.code + " " + this.name;
+        return this.GetCode() + " " + this.name;
     }
 }
