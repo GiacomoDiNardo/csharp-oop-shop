@@ -22,11 +22,13 @@ int iva = Convert.ToInt32(Console.ReadLine());
 Console.WriteLine();
 
 Product product1 = new Product(name, description, price, iva);
-Console.WriteLine("Il prezzo del prodotto senza iva è: " + product1.GetPrice() + " euro");
+Console.WriteLine("Il prezzo del prodotto senza iva è: " + product1.Price + " euro");
 Console.WriteLine();
-Console.WriteLine("Il prezzo del prodotto con iva è: " + product1.IvaPrice() + " euro");
+Console.WriteLine("Il prezzo del prodotto con iva è: " + product1.PriceIva() + " euro");
 Console.WriteLine();
-Console.WriteLine("Il nome completo del prodotto è: " + product1.GetFullName());
+Console.WriteLine("Il nome completo del prodotto è: " + product1.ExtendCode() + " " + product1.Name);
+Console.WriteLine();
+Console.WriteLine("Descrizione del prodotto: " + product1.Description);
 
 
 
@@ -44,40 +46,81 @@ public class Product
     public string description;
     public double price;
     public int iva;
+    private double priceIva;
 
-    public string GetCode()
+
+    public Product(string name, string description, double price, int iva)
     {
-        string strCode = Convert.ToString(code);
-        while(strCode.Length < 8)
+        this.Name = name;
+        this.Description = description;
+        this.Price = price;
+        this.Iva = iva;
+        Code = code;
+
+    }
+
+    public int Code
+    {
+        get
+        {
+            return code;
+        }
+
+        set
+        {
+            code = new Random().Next(1, 100000000);
+        }
+    }
+    public double Price { get; }
+
+    public string Name { get; }
+
+    public int Iva { get; set; }
+
+    public double PriceIva()
+    {
+        priceIva = Price + (Price * Iva / 100);
+        return priceIva;
+    }
+
+    public string Description { get; }
+
+    public string ExtendCode()
+    {
+        string strCode = Convert.ToString(Code);
+        while (strCode.Length < 8)
         {
             strCode = "0" + strCode;
         }
         return strCode;
     }
-
-    public Product(string name, string description, double price, int iva)
-    {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.iva = iva;
-        this.code = new Random().Next(1, 100000000);
-
-    }
-
-    public double GetPrice()
-    {
-        return price;
-    }
-
-    public double IvaPrice()
-    {
-        double finalPrice = this.price + (this.price * this.iva / 100);
-        return finalPrice;
-    }
-
-    public string GetFullName()
-    {
-        return this.GetCode() + " " + this.name;
-    }
 }
+
+
+    //public string GetCode()
+    //{
+    //    string strCode = Convert.ToString(code);
+    //    while(strCode.Length < 8)
+    //    {
+    //        strCode = "0" + strCode;
+    //    }
+    //    return strCode;
+    //}
+
+//    public double GetPrice()
+//    {
+//        return price;
+//    }
+
+//    public double IvaPrice()
+//    {
+//        double finalPrice = this.price + (this.price * this.iva / 100);
+//        finalPrice = Math.Round(finalPrice, 2);
+//        return finalPrice;
+//    }
+
+//    public string GetFullName()
+//    {
+//        return this.GetCode() + " " + this.name;
+//    }
+//}
